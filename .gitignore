@@ -1,0 +1,4 @@
+packer/SERVER_EVAL_x64FRE_en-us.iso 
+packer/secrets.pkrvars.hcl 
+packer/output-win2022-core-golden 
+packer/build.log
