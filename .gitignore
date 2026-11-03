@@ -1,5 +1,5 @@
 packer/iso/windows/SERVER_EVAL_x64FRE_en-us.iso
-packer/iso/virtio/
+packer/iso/virtio-win-iso/
 packer/secrets.pkrvars.hcl 
 packer/output-win2022-core-golden 
 packer/build.log
