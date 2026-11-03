@@ -19,8 +19,8 @@ virtio_tmp_file="${virtio_win_iso_dest_path}.tmp"
 if [[ -f "$virtio_win_iso_dest_path" ]]; then
   echo "virtio-win.iso is already present - skipping"
 else
-  trap 'echo "Download/verify failed; removing $virtio_tmp_file >&2; rm -f $virtio_tmp_file"' EXIT
-  echo "Downloading $iso_download to virtio_win_iso_dest_dir"
+  trap 'echo "Download/verify failed; removing $virtio_tmp_file" >&2; rm -f "$virtio_tmp_file"' EXIT INT TERM
+  echo "Downloading $iso_download to $virtio_win_iso_dest_dir"
   curl -Lf --retry 3 "$virtio_win_iso_url" -o "$virtio_tmp_file"
   echo "${VIRTIO_SHA256} $virtio_tmp_file" | sha256sum -c -
   mv "$virtio_tmp_file" "$virtio_win_iso_dest_path"
@@ -29,21 +29,21 @@ else
 fi
 
 win_iso_dest_dir="$SCRIPT_DIR/../packer/iso/windows"
-win_iso_file_name="SERVER_EVAL_x64_en-us.iso"
+win_iso_file_name="SERVER_EVAL_x64FRE_en-us.iso"
 win_iso_dest_path="$win_iso_dest_dir/$win_iso_file_name"
 
-if [[ ! -f $win_iso_dest_path ]]; then
+if [[ ! -f "$win_iso_dest_path" ]]; then
   cat <<EOF
-  Windows Server 2022 ISO not found at:
-    $win_iso_dest_path
+Windows Server 2022 ISO not found at:
+  $win_iso_dest_path
 
-  Download it (free 180-day eval) from:
-    https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022
+Download it (free 180-day eval) from:
+  https://www.microsoft.com/en-us/evalcenter/download-windows-server-2022
 
-  Choose the 64-bit Version of Windows Server 2022, then save it as:
-    $win_iso_file_name
-  into:
-    $win_iso_dest_dir
+Choose the 64-bit Version of Windows Server 2022, then save it as:
+  $win_iso_file_name
+into:
+  $win_iso_dest_dir
 EOF
   exit 1
 fi
