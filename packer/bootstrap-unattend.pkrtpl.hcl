@@ -32,9 +32,6 @@
            SQL02. A '*' would make Windows generate a random name;
            we use a fixed placeholder so an un-renamed VM is obvious. -->
       <ComputerName>WIN-BOOTSTRAP</ComputerName>
-
-      <!-- Skip the "activate now" nag; this is an eval image. -->
-      <ProductKey></ProductKey>
     </component>
 
     <!-- Keep RDP off by default; lab is CLI/WinRM-driven. Ansible can
