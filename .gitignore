@@ -6,3 +6,6 @@ packer/NetKVM
 packer/Balloon
 packer/output-win2022-core-golden 
 packer/build.log
+
+terraform/.terraform
+terraform/*.tfstate*
