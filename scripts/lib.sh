@@ -119,15 +119,19 @@ build_golden() {
 }
 
 verify_golden() {
+  verify_golden_cleanup() {
+    sudo umount /mnt/win 2>/dev/null || true
+    sudo umount /mnt/efi 2>/dev/null || true
+    sudo qemu-nbd --disconnect /dev/nbd0 2>/dev/null || true
+    sudo rmdir /mnt/win /mnt/efi 2>/dev/null || true
+  }
+
   [[ -f "$GOLDEN_IMAGE" ]] ||
     die "Built image not found. Check build.log for errors."
 
   sudo modprobe nbd
-  sudo qemu-nbd --connect=/dev/nbd0 "$GOLDEN_IMAGE"
-  trap 'sudo umount /mnt/win 2>/dev/null || true;
-        sudo umount /mnt/efi 2>/dev/null || true; 
-        sudo qemu-nbd --disconnect /dev/nbd0 2>/dev/null || true; 
-        sudo rmdir /mnt/win /mnt/efi 2>/dev/null || true;' EXIT
+  sudo qemu-nbd --connect=/dev/nbd0 --read-only "$GOLDEN_IMAGE"
+  trap verify_golden_cleanup EXIT
 
   sudo partprobe /dev/nbd0
 
@@ -150,4 +154,6 @@ verify_golden() {
 
   log "Golden image verified: bootstrap unattend, sysprep tag, and UEFI bootloader all present."
 
+  verify_golden_cleanup
+  trap - EXIT
 }
