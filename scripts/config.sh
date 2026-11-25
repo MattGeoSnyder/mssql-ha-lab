@@ -1,4 +1,8 @@
 # config.sh — sourced
+
+[[ -n "${_CONFIG_LOADED:-}" ]] && return
+_CONFIG_LOADED=1
+
 CONFIG_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$CONFIG_DIR/.." && pwd)"
 
@@ -17,4 +21,8 @@ WINDOWS_ISO_NAME="SERVER_EVAL_x64FRE_en-us.iso"
 DRIVERS=("vioscsi" "NetKVM" "Balloon")
 GOLDEN_IMAGE="$PACKER_DIR/output-win2022-core-golden/win2022-core-golden"
 
-PACKAGES=("qemu-base" "qemu-img" "libvirt" "edk2-ovmf" "wimlib" "tigervnc" "dnsmasq" "packer" "libisoburn")
+TERRAFORM_DIR="$REPO_ROOT/terraform"
+LIBVIRT_URI="qemu:///system"
+VM_BOOT_TIMEOUT=900
+
+PACKAGES=("qemu-base" "qemu-img" "libvirt" "edk2-ovmf" "wimlib" "tigervnc" "dnsmasq" "packer" "libisoburn" "terraform")
